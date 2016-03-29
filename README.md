@@ -1,16 +1,15 @@
-Yii 2 Basic Project Template
+Yii 2 Gallery Template
 ============================
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
+Yii 2 Gallery Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
+rapidly creating small gallery projects.
 
-The template contains the basic features including user login/logout and a contact page.
+The template contains the gallery features including user login/logout and a contact page.
 It includes all commonly used configurations that would allow you to focus on adding new
 features to your application.
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-basic/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-basic/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-basic.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-basic)
+[![Latest Stable Version](https://poser.pugx.org/korinovsky/yii2-app-gallery/v/stable.png)](https://packagist.org/packages/korinovsky/yii2-app-gallery)
+[![Total Downloads](https://poser.pugx.org/korinovsky/yii2-app-gallery/downloads.png)](https://packagist.org/packages/korinovsky/yii2-app-gallery)
 
 DIRECTORY STRUCTURE
 -------------------
@@ -22,7 +21,7 @@ DIRECTORY STRUCTURE
       mail/               contains view files for e-mails
       models/             contains model classes
       runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
+      tests/              contains various tests for the gallery application
       vendor/             contains dependent 3rd-party packages
       views/              contains view files for the Web application
       web/                contains the entry script and Web resources
@@ -41,7 +40,7 @@ INSTALLATION
 ### Install from an Archive File
 
 Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
+a directory named `gallery` that is directly under the Web root.
 
 Set cookie validation key in `config/web.php` file to some random secret string:
 
@@ -55,7 +54,7 @@ Set cookie validation key in `config/web.php` file to some random secret string:
 You can then access the application through the following URL:
 
 ~~~
-http://localhost/basic/web/
+http://localhost/gallery/web/
 ~~~
 
 
@@ -68,14 +67,14 @@ You can then install this project template using the following command:
 
 ~~~
 php composer.phar global require "fxp/composer-asset-plugin:~1.1.1"
-php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
+php composer.phar create-project --prefer-dist --stability=dev korinovsky/yii2-app-gallery gallery
 ~~~
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
+Now you should be able to access the application through the following URL, assuming `gallery` is the directory
 directly under the Web root.
 
 ~~~
-http://localhost/basic/web/
+http://localhost/gallery/web/
 ~~~
 
 
@@ -89,7 +88,7 @@ Edit the file `config/db.php` with real data, for example:
 ```php
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'dsn' => 'mysql:host=localhost;dbname=yii2gallery',
     'username' => 'root',
     'password' => '1234',
     'charset' => 'utf8',
@@ -99,4 +98,4 @@ return [
 **NOTES:**
 - Yii won't create the database for you, this has to be done manually before you can access it.
 - Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
+- Refer to the README in the `tests` directory for information specific to gallery application tests.
