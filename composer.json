@@ -1,8 +1,8 @@
 {
-    "name": "yiisoft/yii2-app-basic",
-    "description": "Yii 2 Basic Project Template",
-    "keywords": ["yii2", "framework", "basic", "project template"],
-    "homepage": "http://www.yiiframework.com/",
+    "name": "korinovsky/yii2-app-gallery",
+    "description": "Yii 2 Gallery Template",
+    "keywords": ["yii2", "framework", "gallery", "project template"],
+    "homepage": "https://github.com/korinovsky/yii-app-gallery",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
