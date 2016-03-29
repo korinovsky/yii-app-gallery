@@ -19,12 +19,6 @@ if ($model->description) {
     $this->registerMetaTag(['name' => 'description', 'content' => $model->description]);
 }
 
-//$items = [];
-//foreach($model->getBehavior('galleryBehavior')->getImages() as $image) {
-//    /* @var \zxbodya\yii2\galleryManager\GalleryImage $image */
-//    $items[] = ['img' => $image->getUrl('original'), 'thumb' => $image->getUrl('thumb'), 'width' => '85px',/* 'id' => $image->id,*/ 'caption' => $image->name.($image->description ? ' – '.$image->description : '')];
-//}
-
 /* @var \app\models\GalleryBehavior $gallery */
 $gallery = $model->getBehavior('galleryBehavior');
 
@@ -42,14 +36,11 @@ $gallery = $model->getBehavior('galleryBehavior');
             <h1><?= $model->name ?></h1>
         <? endif; ?>
     </div>
-    <?php
+    <?
     $like = [];
     $fotorama = \metalguardian\fotorama\Fotorama::begin(
         [
             'options' => [
-//                'loop' => true,
-//                'hash' => true,
-//                'ratio' => 800/600,
                 'fit' => 'scaledown',
                 'nav' => 'thumbs',
                 'width' => '100%',
@@ -58,20 +49,10 @@ $gallery = $model->getBehavior('galleryBehavior');
                 'allowfullscreen' => 'native',
                 'thumbheight' => Yii::$app->params['thumbHeight'],
                 'clicktransition' => 'crossfade',
-//                'transitionduration' => 2000,
                 'keyboard' => [
                     'space' => 1,
                 ],
             ],
-//            'spinner' => [
-//                'lines' => 20,
-//            ],
-//            'tagName' => 'span',
-//            'useHtmlData' => false,
-//            'htmlOptions' => [
-//                'class' => 'custom-class',
-//                'id' => 'custom-id',
-//            ],
         ]
     );
     foreach($gallery->getImages() as $image)
@@ -94,34 +75,6 @@ $gallery = $model->getBehavior('galleryBehavior');
     }
     sort($liked);
     $this->registerJs("yii.like = ".json_encode($like).";\nyii.liked = ".json_encode($liked).";\nyii.likedUrl = ".json_encode(Url::toRoute(['like', 'gid' => $model->id])).";");
-    $fotorama->end(); ?>
-    <?
-    /*    echo \metalguardian\fotorama\Fotorama::widget(
-            [
-                'items' => $items,
-    //            ],
-                'options' => [
-    //                'spinner' => [
-    //                    'lines' => 20,
-    //                ],
-    //                'loop' => 1,
-    //                'clicktransition' => 'dissolve',
-                    'width' => '100%',
-                    'hash' => 1,
-                    'maxheight' => '100%',
-                    'nav' => 'thumbs',
-    //                'thumbwidth' => '72px',
-                    'thumbheight' => '48px',
-                    'thumbfit' => 'contain',
-    //                'margin' => 2,
-    //                'shuffle' => '!0',
-    //                'thumbmargin' => 2,
-                    'keyboard' => [
-                        'space' => 1,
-                    ],
-    //                'fit' => 'cover',
-                ]
-            ]
-        );*/
+    $fotorama->end();
     ?>
 </div>
