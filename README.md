@@ -10,6 +10,7 @@ features to your application.
 
 [![Latest Stable Version](https://poser.pugx.org/korinovsky/yii2-app-gallery/v/stable.png)](https://packagist.org/packages/korinovsky/yii2-app-gallery)
 [![Total Downloads](https://poser.pugx.org/korinovsky/yii2-app-gallery/downloads.png)](https://packagist.org/packages/korinovsky/yii2-app-gallery)
+[![Build Status](https://travis-ci.org/korinovsky/yii2-app-gallery.svg?branch=master)](https://travis-ci.org/korinovsky/yii2-app-gallery)
 
 DIRECTORY STRUCTURE
 -------------------
@@ -39,7 +40,7 @@ INSTALLATION
 
 ### Install from an Archive File
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
+Extract the archive file downloaded from [github.com](https://github.com/korinovsky/yii-app-gallery/archive/master.zip) to
 a directory named `gallery` that is directly under the Web root.
 
 Set cookie validation key in `config/web.php` file to some random secret string:
