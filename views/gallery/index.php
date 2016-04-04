@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\GallerySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,17 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="gallery-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Gallery', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-//            ['class' => 'yii\grid\SerialColumn'],
-//            'id',
             [
                 'attribute' => 'name',
                 'format' => 'html',
@@ -33,8 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'description:ntext',
             'active:boolean',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{toggle} {update} {delete}',
+                'buttons' => [
+                    'toggle' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-off"></span>', $url, [
+                            'data' => [
+                                'method' => 'post',
+                            ],
+                            'title' => $model->active  ? 'Выключить' : 'Включить',
+                        ]);
+                    },
+                ],
+            ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+    <?php Pjax::end(); ?></div>

@@ -112,7 +112,7 @@ a.desc:after {
 }
 .fotorama .heart {
     position: absolute;
-    top: 75%;
+    bottom: 40px;
     left: 50%;
     height: 100px;
     width: 100px;
@@ -175,23 +175,35 @@ a.desc:after {
 .fotorama .heart .liked .cnt {
     text-shadow: none;
 }
-.page-gallery {
-    font-family: Calibri, Verdana, Arial, sans-serif;
-}
 .page-gallery h1 {
     margin: 0;
     font-size: 18px;
     line-height: 20px;
 }
-.page-gallery .title {
+.page-gallery .title,
+.page-gallery .desc,
+.fotorama__caption__wrap {
+    font-family: Calibri, Verdana, Arial, sans-serif;
     font-size: 18px;
     text-shadow: 1px 1px 2px #000;
-    font-size: 18px;
     line-height: 20px;
     color: #fff;
+    padding: 7px 10px;
+    background: rgba(0, 0, 0, .5);
+    max-width: 40%;
+}
+.page-gallery .title,
+.page-gallery .desc {
     position: fixed;
     z-index: 1000;
-    margin: 7px 0 0 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; // IE10+
+    user-select: none;
+}
+.page-gallery .title {
+    top: 0;
+    left: 0;
 }
 .page-gallery .title .glyphicon {
     font-size: 15px;
@@ -210,9 +222,39 @@ a.desc:after {
 }
 .page-gallery .title ul {
     padding: 0;
+    margin: 0 0 5px;
     list-style-type: none;
     display: none;
 }
 .page-gallery .title li {
     margin: 10px 0 0;
+}
+.page-gallery .desc {
+    right: 0;
+    bottom: 0;
+}
+.page-gallery .desc > p {
+    margin: 0;
+    overflow: hidden;
+}
+.page-gallery .desc > a {
+    position: absolute;
+    display: inline-block;
+    height: 20px;
+    margin-top: -20px;
+    opacity: 0;
+}
+.page-gallery .desc a {
+    color: #ddd;
+    text-decoration: none;
+    cursor: pointer;
+}
+.page-gallery .desc a:hover {
+    color: #fff;
+}
+/*.page-gallery .lowdesc > a {
+    pointer-events: auto;
+}*/
+.no-events {
+    pointer-events: none;
 }

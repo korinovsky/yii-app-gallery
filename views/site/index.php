@@ -24,37 +24,43 @@ $gallery = $model->getBehavior('galleryBehavior');
 
 ?>
 <div class="site-gallery">
-    <div class="title">
-        <? if (count($models) > 1): ?>
-            <h1><?= Html::a('<i class="glyphicon glyphicon-menu-hamburger"></i>'.$model->name, null, $model->description ? ['title' => $model->description] : []) ?></h1>
+    <div class="title<?= ($many = count($models) > 1) ? '' : ' no-events' ?>">
+        <? if ($many): ?>
+            <h1><?= Html::a('<i class="glyphicon glyphicon-menu-hamburger"></i>'.$model->name, null/*, $model->description ? ['title' => $model->description] : []*/) ?></h1>
             <ul>
                 <? foreach ($models as $m): if ($m->id != $model->id): ?>
-                    <li><?= Html::a('<i class="glyphicon glyphicon-chevron-right"></i>'.$m->name, ['site/index', 'sid' => $m->sid], $m->description ? ['title' => $m->description] : []) ?></li>
+                    <li><?= Html::a('<i class="glyphicon glyphicon-chevron-right"></i>'.$m->name, ['site/index', 'sid' => $m->sid]/*, $m->description ? ['title' => $m->description] : []*/) ?></li>
                 <? endif; endforeach; ?>
             </ul>
         <? else: ?>
-            <h1><?= $model->name ?></h1>
+            <h1 ><?= $model->name ?></h1>
         <? endif; ?>
     </div>
     <?
+    if ($model->description) {
+        echo Html::tag('div', Html::tag('p',
+            ($t = count($desca = explode("\n", $desc = trim($model->description))) > 1 || mb_strlen($desca[0]) > 50) ?
+                Html::a(nl2br(htmlspecialchars($desc)), null).Html::a((mb_strlen($desca[0]) > 50 ? mb_substr($desca[0], 0, 30) : $desca[0]).'…', null)
+                :
+                nl2br(htmlspecialchars($desc))
+        ), ['class' => 'desc'.($t ? '' : ' no-events')]);
+    }
     $like = [];
-    $fotorama = \metalguardian\fotorama\Fotorama::begin(
-        [
-            'options' => [
-                'fit' => 'scaledown',
-                'nav' => 'thumbs',
-                'width' => '100%',
-                'height' => '100%',
-                'hash' => 1,
-                'allowfullscreen' => 'native',
-                'thumbheight' => Yii::$app->params['thumbHeight'],
-                'clicktransition' => 'crossfade',
-                'keyboard' => [
-                    'space' => 1,
-                ],
+    $fotorama = \metalguardian\fotorama\Fotorama::begin([
+        'options' => [
+            'fit' => 'scaledown',
+            'nav' => 'thumbs',
+            'width' => '100%',
+            'height' => '100%',
+            'hash' => 1,
+            'allowfullscreen' => 'native',
+            'thumbheight' => Yii::$app->params['thumbHeight'],
+            'clicktransition' => 'crossfade',
+            'keyboard' => [
+                'space' => 1,
             ],
-        ]
-    );
+        ],
+    ]);
     foreach($gallery->getImages() as $image)
     {
         /* @var \app\models\GalleryImage $image */
@@ -62,9 +68,10 @@ $gallery = $model->getBehavior('galleryBehavior');
         if ($image->liked > 0) {
             $like['i'.$image->id] = $image->liked;
         }
-        ?>
-        <a href="<?= $image->getUrl('original') ?>" id="i<?= $image->id ?>"><img src="<?= $image->getUrl('thumb') ?>"<?= $is ? ' '.$is[3] : '' ?>></a>
-        <?
+        echo Html::a('<img src="'.$image->getUrl('thumb').($is ? '" '.$is[3] : '"').'>', $image->getUrl('original'), ['data' => [
+            'caption' => $image->name.($image->description ? ' – '.$image->description : ''),
+            'id' => 'i'.$image->id,
+        ]]);
     }
     $liked = Yii::$app->request->cookies->getValue('liked', []);
     foreach ($liked as &$elem) {

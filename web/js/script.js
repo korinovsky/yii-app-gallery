@@ -2,7 +2,8 @@ $(function () {
 
     $('.page-gallery').each(function () {
         var page = $(this),
-            title = page.find('.title');
+            title = page.find('.title'),
+            desc = page.find('.desc');
         title.find('h1 a').each(function () {
             var self = $(this),
                 ul = title.children('ul'),
@@ -46,11 +47,52 @@ $(function () {
                 }, 300);
             }
         });
+        desc.each(function () {
+            var self = $(this),
+                a = self.children('a'),
+                p = self.children('p'),
+                h = p.height(),
+                w = p.width(),
+                init = function () {
+                    $(document).on('mousedown.gallerydesc keydown.gallerydesc', function () {
+                        $(document).off('.gallerydesc');
+                        self.children('p').animate({
+                            'height': a.height(),
+                            'width': a.width(),
+                            'opacity': 0
+                        }, 150);
+                        a.animate({
+                            'opacity': 1
+                        }, 150, function () {
+                            self.addClass('lowdesc');
+                        });
+                    });
+                };
+            if (a.length > 0) {
+                init();
+                a.on('click', function (e) {
+                    e.preventDefault();
+                    self.removeClass('lowdesc');
+                    self.children('p').animate({
+                        'height': h,
+                        'width': w,
+                        'opacity': 1
+                    }, 150);
+                    a.animate({
+                        'opacity': 0
+                    }, 150);
+                    init();
+                });
+            }
+        }).css({
+            opacity: 0,
+        });
         setTimeout(function () {
             var fotorama = page.find('.fotorama'),
                 fotoobj = fotorama.data('fotorama'),
                 stage = fotorama.find('.fotorama__stage'),
-                heart = fotorama.children('.fotorama__wrap').append('<div class="heart"><a><sapn class="glyphicon glyphicon-heart-empty"></sapn></a></div>').children(':last-child'),
+                nav = fotorama.find('.fotorama__nav'),
+                heart = stage.after('<div class="heart"><a><sapn class="glyphicon glyphicon-heart-empty"></sapn></a></div>').next(),
                 link = heart.children('a'),
                 icon = link.children('.glyphicon'),
                 cnt = link.append('<span class="cnt"></span>').children(':last-child'),
@@ -70,6 +112,22 @@ $(function () {
                     icon.toggleClass('glyphicon-heart-empty', !liked);
                     cnt.html(count);
                 };
+            stage.after(title, desc);
+            if (nav.length > 0) {
+                var btm = nav.height();
+                heart.add(desc).css({
+                    'margin-bottom': btm
+                });
+                desc.animate({
+                    opacity: 1
+                }, 150);
+            }
+            else {
+                desc.css({
+                    opacity: 1
+                });
+            }
+            fotorama.find('.fotorama__caption').addClass('no-events');
             link.on('click', function () {
                 if (link.css('opacity') < 1) {
                     return false;
@@ -95,13 +153,11 @@ $(function () {
             }).on('mousemove touchmove', function () {
                 if (downed && !grabbing) {
                     grabbing = true;
-                    // heart.addClass('noheart');
-                    heart.fadeOut(150);
+                    heart.addClass('noheart');
                 }
             }).on('mouseup touchend', function () {
                 downed = grabbing = false;
-                // heart.removeClass('noheart');
-                heart.fadeIn(150);
+                heart.removeClass('noheart');
             }).on('mouseenter', function () {
                 heart.removeClass('lowheart');
             }).on('mouseleave', function () {

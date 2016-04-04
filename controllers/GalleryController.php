@@ -133,7 +133,6 @@ class GalleryController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -144,7 +143,19 @@ class GalleryController extends Controller
         Gallery::findOne($model->id)->getBehavior('galleryBehavior')->updateImages();
         return $this->redirect(['view', 'id' => $model->id]);
     }
-    
+
+    /**
+     * @param null $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionToggle($id) {
+        $model = static::findModel($id);
+        $model->active = $model->active ? 0 : 1;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the Gallery model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
