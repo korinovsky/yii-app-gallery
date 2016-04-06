@@ -40,10 +40,10 @@ $gallery = $model->getBehavior('galleryBehavior');
     if ($model->description) {
         echo Html::tag('div', Html::tag('p',
             ($t = count($desca = explode("\n", $desc = trim($model->description))) > 1 || mb_strlen($desca[0]) > 50) ?
-                Html::a(nl2br(htmlspecialchars($desc)), null).Html::a((mb_strlen($desca[0]) > 50 ? mb_substr($desca[0], 0, 30) : $desca[0]).'…', null)
+                Html::a(nl2br(htmlspecialchars($desc)), null)
                 :
                 nl2br(htmlspecialchars($desc))
-        ), ['class' => 'desc'.($t ? '' : ' no-events')]);
+        ).($t ? Html::a((mb_strlen($desca[0]) > 50 ? mb_substr($desca[0], 0, 30) : $desca[0]).'…', null) : ''), ['class' => 'desc'.($t ? '' : ' no-events')]);
     }
     $like = [];
     $fotorama = \metalguardian\fotorama\Fotorama::begin([
