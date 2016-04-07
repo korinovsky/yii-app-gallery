@@ -63,6 +63,7 @@ class SiteController extends Controller
             ])
             ->orderBy([
                 'sort' => SORT_ASC,
+                'id' => SORT_ASC,
             ])->all()
         )) {
             throw new NotFoundHttpException('The requested page does not exist.');
