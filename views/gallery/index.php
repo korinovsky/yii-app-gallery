@@ -32,6 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'active:boolean',
             [
+                'attribute' => 'sort',
+                'headerOptions' => [
+                    'class' => 'sort-numerical'
+                ],
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{toggle} {update} {delete}',
                 'buttons' => [

@@ -47,6 +47,11 @@ class GallerySearch extends Gallery
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'sort' => SORT_ASC,
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -61,6 +66,7 @@ class GallerySearch extends Gallery
         $query->andFilterWhere([
             'id' => $this->id,
             'active' => $this->active,
+            'sort' => $this->sort,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

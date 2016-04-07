@@ -56,7 +56,15 @@ class SiteController extends Controller
 
     public function actionIndex($sid = null)
     {
-        if (!($models = Gallery::find()->andWhere(['active' => 1])->all())) {
+        if (!(
+        $models = Gallery::find()
+            ->andWhere([
+                'active' => 1
+            ])
+            ->orderBy([
+                'sort' => SORT_ASC,
+            ])->all()
+        )) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         if ($sid) {

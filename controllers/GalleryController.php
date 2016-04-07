@@ -96,13 +96,17 @@ class GalleryController extends Controller
     {
         $model = new Gallery();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        else {
+            $model->setSort();
+        }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

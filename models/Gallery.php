@@ -11,11 +11,14 @@ use yii\helpers\Inflector;
  * @property integer $id
  * @property string $sid
  * @property integer $active
+ * @property integer $sort
  * @property string $name
  * @property string $description
  */
 class Gallery extends \yii\db\ActiveRecord
 {
+    public $sortStep = 100;
+
     /**
      * @inheritdoc
      */
@@ -63,8 +66,8 @@ class Gallery extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['active', 'name'], 'required'],
-            [['active'], 'integer'],
+            [['active', 'name', 'sort'], 'required'],
+            [['active', 'sort'], 'integer'],
             [['description'], 'string'],
             [['sid', 'name'], 'string', 'max' => 255],
         ];
@@ -79,9 +82,19 @@ class Gallery extends \yii\db\ActiveRecord
             'id' => 'ID',
             'sid' => 'SID',
             'active' => 'Active',
+            'sort' => 'Sort',
             'name' => 'Name',
             'description' => 'Description',
         ];
+    }
+
+    public function setSort() {
+        if ($max = $this->find()->max('sort')) {
+            $this->sort = $max + $this->sortStep - ($max % $this->sortStep);
+        }
+        else {
+            $this->sort = $this->sortStep;
+        }
     }
 
     public function beforeSave($insert)
