@@ -10,6 +10,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '1J04pN7zdt8BAWR6-gcOVvEbrXdYLHJe',
+            'baseUrl' => '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -46,6 +47,7 @@ $config = [
                 'gallery/<action:[\w-]+>' => 'gallery/<action>',
                 '<sid:[a-z0-9-]+>' => 'site/index',
                 '' => 'site/index',
+                '<action>'=>'site/<action>',
             ],
         ],
     ],
