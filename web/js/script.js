@@ -30,12 +30,20 @@ $(function () {
                         hideEventOff();
                         ul.slideUp(150, function () {
                             animated = false;
+                            desc.css({
+                                'opacity': 1,
+                                'pointer-events': 'all'
+                            });
                         });
                     }
                     else {
                         ul.slideDown(150, function () {
                             animated = false;
                             hideEventOn();
+                        });
+                        desc.css({
+                            'opacity': 0,
+                            'pointer-events': 'none'
                         });
                     }
                     visibled = !visibled;
@@ -49,12 +57,14 @@ $(function () {
         });
         desc.each(function () {
             var self = $(this),
+                animate = false;
                 a = self.children('a'),
                 p = self.children('p'),
                 h = p.height(),
                 w = p.width(),
                 init = function () {
-                    $(document).on('mousedown.gallerydesc keydown.gallerydesc', function () {
+                    $(document).on('click.gallerydesc keydown.gallerydesc', function () {
+                        animate = true;
                         $(document).off('.gallerydesc');
                         self.children('p').animate({
                             'height': a.height(),
@@ -65,12 +75,14 @@ $(function () {
                             'opacity': 1
                         }, 150, function () {
                             self.addClass('lowdesc');
+                            animate = false;
                         });
                     });
                 };
             if (a.length > 0) {
                 init();
                 a.on('click', function (e) {
+                    animate = true;
                     e.preventDefault();
                     self.removeClass('lowdesc');
                     self.children('p').animate({
@@ -80,12 +92,14 @@ $(function () {
                     }, 150);
                     a.animate({
                         'opacity': 0
-                    }, 150);
-                    init();
+                    }, 150, function () {
+                        animate = false;
+                        init();
+                    });
                 });
             }
         }).css({
-            opacity: 0,
+            opacity: 0
         });
         setTimeout(function () {
             var fotorama = page.find('.fotorama'),

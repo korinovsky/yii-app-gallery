@@ -39,10 +39,32 @@ class Gallery extends \yii\db\ActiveRecord
                         if ($dstSize->getHeight() > $maxHeight) {
                             $dstSize = $dstSize->heighten($maxHeight);
                         }
-//                        $maxWidth = 100;
-//                        if ($dstSize->getWidth() > $maxWidth) {
-//                            $dstSize = $dstSize->widen($maxWidth);
-//                        }
+                        return $img
+                            ->copy()
+                            ->resize($dstSize);
+                    },
+                    'original' => function ($img) {
+                        /** @var \Imagine\Image\ImageInterface $img */
+                        $dstSize = $img->getSize();
+                        $maxHeight = 1080;
+                        if ($dstSize->getHeight() > $maxHeight) {
+                            $dstSize = $dstSize->heighten($maxHeight);
+                        }
+                        return $img
+                            ->copy()
+                            ->resize($dstSize);
+                    },
+                    'preview' => function ($img) {
+                        /** @var \Imagine\Image\ImageInterface $img */
+                        $dstSize = $img->getSize();
+                        $maxHeight = 88;
+                        if ($dstSize->getHeight() > $maxHeight) {
+                            $dstSize = $dstSize->heighten($maxHeight);
+                        }
+                        $maxWidth = 130;
+                        if ($dstSize->getWidth() > $maxWidth) {
+                            $dstSize = $dstSize->widen($maxWidth);
+                        }
                         return $img
                             ->copy()
                             ->resize($dstSize);
