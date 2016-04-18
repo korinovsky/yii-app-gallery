@@ -1,5 +1,20 @@
 $(function () {
-
+    $('.editor-modal').each(function () {
+        var self = $(this),
+            check = $('.btn-toolbar').append('<label class="btn btn-default"><input type="checkbox" class="edit-all" style="margin-right: 4px;">Edit selected together</label>').find('.edit-all');
+        self.on('show.bs.modal', function (e) {
+            if (check.prop('checked')) {
+                var texts = self.find(':text'),
+                    textareas = self.find('textarea');
+                texts.on('change', function () {
+                    texts.val($(this).val());
+                });
+                textareas.on('change', function () {
+                    textareas.val($(this).val());
+                });
+            }
+        });
+    });
     $('.page-gallery').each(function () {
         var page = $(this),
             title = page.find('.title'),
@@ -60,17 +75,20 @@ $(function () {
                 animate = false;
                 a = self.children('a'),
                 p = self.children('p'),
-                h = p.height(),
-                w = p.width(),
+                h = p.height()+1,
+                w = p.width()+1,
                 init = function () {
                     $(document).on('click.gallerydesc keydown.gallerydesc', function () {
                         animate = true;
                         $(document).off('.gallerydesc');
-                        self.children('p').animate({
+                        p.animate({
                             'height': a.height(),
                             'width': a.width(),
                             'opacity': 0
-                        }, 150);
+                        }, 150, function () {
+                            // p.css('display', 'none');
+                        });
+                        a.css('display', 'block');
                         a.animate({
                             'opacity': 1
                         }, 150, function () {
@@ -85,7 +103,8 @@ $(function () {
                     animate = true;
                     e.preventDefault();
                     self.removeClass('lowdesc');
-                    self.children('p').animate({
+                    // p.css('display', 'block');
+                    p.animate({
                         'height': h,
                         'width': w,
                         'opacity': 1
@@ -93,10 +112,11 @@ $(function () {
                     a.animate({
                         'opacity': 0
                     }, 150, function () {
+                        a.css('display', 'none');
                         animate = false;
                         init();
                     });
-                });
+                }).css('display', 'none');
             }
         }).css({
             opacity: 0
@@ -141,7 +161,7 @@ $(function () {
                     opacity: 1
                 });
             }
-            fotorama.find('.fotorama__caption').addClass('no-events');
+            // fotorama.find('.fotorama__caption').addClass('no-events');
             link.on('click', function () {
                 if (link.css('opacity') < 1) {
                     return false;

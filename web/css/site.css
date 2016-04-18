@@ -113,7 +113,7 @@ a.desc:after {
     text-align: center;
     width: 130px;
 }
-.gallery-manager .photo-editor :first-child {
+.gallery-manager .photo-editor > :first-child {
     text-align: center;
 }
 .page-gallery {
@@ -146,10 +146,6 @@ a.desc:after {
     -o-transition: opacity .15s ease-out;
     transition: opacity .15s ease-out;
 }
-/*
-.fotorama .fotorama__wrap--no-controls .heart a,
-.fotorama .fotorama__wrap--grabbing .heart a,
-*/
 .fotorama .noheart a {
     opacity: 0 !important;
     -webkit-transition: opacity .15s ease-out !important;
@@ -249,7 +245,6 @@ a.desc:after {
 .page-gallery .desc > p {
     margin: 0;
     overflow: hidden;
-    z-index: 2;
 }
 .page-gallery .desc > a {
     position: absolute;
@@ -257,7 +252,6 @@ a.desc:after {
     height: 20px;
     top: 7px;
     opacity: 0;
-    z-index: 1;
 }
 .page-gallery .desc a {
     color: #ddd;
@@ -267,18 +261,21 @@ a.desc:after {
 .page-gallery .desc a:hover {
     color: #fff;
 }
-.page-gallery .desc > p > a {
-    position: relative;
-    z-index: 2;
-}
-.page-gallery .lowdesc > a {
-    z-index: 2;
-}
-.page-gallery .lowdesc > p > a {
-    z-index: 1;
-}
 .fotorama__caption__wrap {
     float: right;
+}
+.fotorama__caption a,
+.page-gallery .desc > p a {
+    text-decoration: none;
+    color: #337ab7;
+    border-bottom: 0 none;
+}
+.fotorama__caption a:hover,
+.fotorama__caption a:focus,
+.page-gallery .desc > p a:hover,
+.page-gallery .desc > p a:focus {
+    text-decoration: underline;
+    color: #23527c;
 }
 .no-events {
     pointer-events: none;

@@ -43,11 +43,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<sid:[a-z0-9-]+>' => 'site/index',
-                '' => 'site/index',
                 'gallery' => 'gallery/index',
                 'gallery/<action:[\w-]+>' => 'gallery/<action>',
                 '<action:(logout|login)>'=>'site/<action>',
+                '<sid:[a-z0-9-]+>' => 'site/index',
+                '' => 'site/index',
             ],
         ],
     ],

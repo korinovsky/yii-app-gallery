@@ -19,6 +19,12 @@ if ($model->description) {
     $this->registerMetaTag(['name' => 'description', 'content' => $model->description]);
 }
 
+if (!function_exists('text2url')) {
+    function descbeautify($text) {
+        return nl2br(preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank">$1</a>', htmlspecialchars($text)));
+    }
+}
+
 /* @var \app\models\GalleryBehavior $gallery */
 $gallery = $model->getBehavior('galleryBehavior');
 
@@ -38,12 +44,8 @@ $gallery = $model->getBehavior('galleryBehavior');
     </div>
     <?
     if ($model->description) {
-        echo Html::tag('div', Html::tag('p',
-            ($t = count($desca = explode("\n", $desc = trim($model->description))) > 1 || mb_strlen($desca[0]) > 50) ?
-                Html::a(nl2br(htmlspecialchars($desc)), null)
-                :
-                nl2br(htmlspecialchars($desc))
-        ).($t ? Html::a((mb_strlen($desca[0]) > 50 ? mb_substr($desca[0], 0, 30) : $desca[0]).'…', null) : ''), ['class' => 'desc'.($t ? '' : ' no-events')]);
+        echo Html::tag('div', Html::tag('p', descbeautify($desc = trim($model->description))).
+            (($t = count($desca = explode("\n", $desc)) > 1 || mb_strlen($desca[0]) > 50) ? Html::a((mb_strlen($desca[0]) > 50 ? mb_substr($desca[0], 0, 30) : $desca[0]).'…', null) : ''), ['class' => 'desc'.($t ? '' : ' no-events')]);
     }
     $like = [];
     $fotorama = \metalguardian\fotorama\Fotorama::begin([
@@ -69,7 +71,7 @@ $gallery = $model->getBehavior('galleryBehavior');
             $like['i'.$image->id] = $image->liked;
         }
         echo Html::a('<img src="'.$image->getUrl('thumb').($is ? '" '.$is[3] : '"').'>', $image->getUrl('original'), ['data' => [
-            'caption' => $image->name.($image->description ? ' – '.$image->description : ''),
+            'caption' => $image->name.($image->description ? ' – '.descbeautify($image->description) : ''),
             'id' => 'i'.$image->id,
         ]]);
     }

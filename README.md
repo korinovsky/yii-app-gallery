@@ -100,3 +100,47 @@ return [
 - Yii won't create the database for you, this has to be done manually before you can access it.
 - Check and edit the other files in the `config/` directory to customize your application as required.
 - Refer to the README in the `tests` directory for information specific to gallery application tests.
+
+
+\zxbodya\yii2-gallery-manager\GalleryBehavior:238
+
+```php
+// orientation fix
+if (($data = function_exists('exif_read_data') ? @exif_read_data($path) : null) && isset($data['Orientation']) && ($ort = $data['Orientation'])) {
+    switch($ort)
+    {
+        case 1: { // nothing
+            break;
+        }
+        case 2: { // horizontal flip
+            $originalImage->flipHorizontally();
+            break;
+        }
+        case 3: { // 180 rotate right
+            $originalImage->rotate(180);
+            break;
+        }
+        case 4: { // vertical flip
+            $originalImage->flipVertically();
+            break;
+        }
+        case 5: { // vertical flip + 90 rotate right
+            $originalImage->flipVertically()->rotate(90);
+            break;
+        }
+        case 6: { // 90 rotate right
+            $originalImage->rotate(90);
+            break;
+        }
+        case 7: { // horizontal flip + 90 rotate right
+            $originalImage->flipHorizontally()->rotate(90);
+            break;
+        }
+        case 8: { // 90 rotate left
+            $originalImage->rotate(-90);
+            break;
+        }
+    }
+}
+```
+

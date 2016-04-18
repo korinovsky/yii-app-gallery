@@ -40,7 +40,7 @@ class GalleryBehavior extends \zxbodya\yii2\galleryManager\GalleryBehavior
                 ->select(['id', 'name', 'description', 'rank', 'liked'])
                 ->from($this->tableName)
                 ->where(['type' => $this->type, 'ownerId' => $this->getGalleryId()])
-                ->orderBy(['rank' => 'asc'])
+                ->orderBy(['rank' => SORT_DESC])
                 ->all();
 
             $this->_images = [];
