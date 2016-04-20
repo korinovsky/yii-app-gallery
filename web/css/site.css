@@ -241,6 +241,10 @@ a.desc:after {
 .page-gallery .desc {
     top: 34px;
     z-index: 1;
+    cursor: default;
+}
+.page-gallery .desc a {
+    cursor: pointer;
 }
 .page-gallery .desc > p {
     margin: 0;

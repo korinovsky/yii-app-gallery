@@ -71,7 +71,7 @@ $gallery = $model->getBehavior('galleryBehavior');
             $like['i'.$image->id] = $image->liked;
         }
         echo Html::a('<img src="'.$image->getUrl('thumb').($is ? '" '.$is[3] : '"').'>', $image->getUrl('original'), ['data' => [
-            'caption' => $image->name.($image->description ? ' – '.descbeautify($image->description) : ''),
+            'caption' => $image->name.($image->description ? ($image->name ? ' – ' : '').descbeautify($image->description) : ''),
             'id' => 'i'.$image->id,
         ]]);
     }
