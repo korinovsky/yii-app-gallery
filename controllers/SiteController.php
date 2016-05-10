@@ -69,7 +69,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         if ($sid) {
-            $model = Gallery::findOne(['sid' => $sid, 'active' => 1]);
+            $model = Gallery::findOne(['sid' => $sid/*, 'active' => 1*/]);
         }
         if (!isset($model)) {
             return $this->redirect(['index', 'sid' => $models[0]->sid, '#' => 'menu']);

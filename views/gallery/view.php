@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 use zxbodya\yii2\galleryManager\GalleryManager;
 
@@ -32,6 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description:ntext',
             'active:boolean',
+            [
+                'format' => 'html',
+                'label' => 'Url',
+                'value' => Html::a(Url::toRoute(['site/index', 'sid' => $model->sid], true), ['site/index', 'sid' => $model->sid]),
+            ]
         ],
     ]) ?>
 
