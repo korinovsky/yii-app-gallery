@@ -31,7 +31,7 @@ class GalleryBehavior extends \zxbodya\yii2\galleryManager\GalleryBehavior
     /**
      * @return GalleryImage[]
      */
-    public function getImages()
+    public function getImages($desc = false)
     {
         if ($this->_images === null) {
             $query = new \yii\db\Query();
@@ -40,7 +40,7 @@ class GalleryBehavior extends \zxbodya\yii2\galleryManager\GalleryBehavior
                 ->select(['id', 'name', 'description', 'rank', 'liked'])
                 ->from($this->tableName)
                 ->where(['type' => $this->type, 'ownerId' => $this->getGalleryId()])
-                ->orderBy(['rank' => SORT_DESC])
+                ->orderBy(['rank' => $desc ? SORT_DESC : SORT_ASC])
                 ->all();
 
             $this->_images = [];

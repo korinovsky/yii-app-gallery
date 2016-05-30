@@ -63,7 +63,7 @@ $gallery = $model->getBehavior('galleryBehavior');
             ],
         ],
     ]);
-    foreach($gallery->getImages() as $image)
+    foreach($gallery->getImages(true) as $image)
     {
         /* @var \app\models\GalleryImage $image */
         $is = getimagesize($image->getFilePath('thumb'));
