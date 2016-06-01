@@ -235,6 +235,9 @@ a.desc:after {
     list-style-type: none;
     display: none;
 }
+.page-gallery .title ul ul {
+    margin-left: 10px;
+}
 .page-gallery .title li {
     margin: 10px 0 0;
 }

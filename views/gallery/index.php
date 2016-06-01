@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'description:ntext',
+            'group_name',
             'active:boolean',
             [
                 'attribute' => 'sort',

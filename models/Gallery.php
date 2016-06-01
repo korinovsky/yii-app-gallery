@@ -13,10 +13,12 @@ use yii\helpers\Inflector;
  * @property integer $active
  * @property integer $sort
  * @property string $name
+ * @property string $group_name
  * @property string $description
  */
 class Gallery extends \yii\db\ActiveRecord
 {
+    const GROUP_DELIMITER = ';';
     public $sortStep = 100;
 
     /**
@@ -90,7 +92,7 @@ class Gallery extends \yii\db\ActiveRecord
         return [
             [['active', 'name', 'sort'], 'required'],
             [['active', 'sort'], 'integer'],
-            [['description'], 'string'],
+            [['description', 'group_name'], 'string'],
             [['sid', 'name'], 'string', 'max' => 255],
         ];
     }
@@ -106,6 +108,7 @@ class Gallery extends \yii\db\ActiveRecord
             'active' => 'Active',
             'sort' => 'Sort',
             'name' => 'Name',
+            'group_name' => 'Group Name',
             'description' => 'Description',
         ];
     }
@@ -121,8 +124,8 @@ class Gallery extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if ($this->getDirtyAttributes(['name'])) {
-            $this->sid = Inflector::slug($this->name);
+        if ($this->getDirtyAttributes(['name', 'group_name'])) {
+            $this->sid = Inflector::slug(str_replace(static::GROUP_DELIMITER, '-', $this->group_name).'-'.$this->name);
         }
         return parent::beforeSave($insert);
     }

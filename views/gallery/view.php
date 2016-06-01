@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             'description:ntext',
+            'group_name',
             'active:boolean',
             [
                 'format' => 'html',

@@ -19,25 +19,50 @@ if ($model->description) {
     $this->registerMetaTag(['name' => 'description', 'content' => $model->description]);
 }
 
-if (!function_exists('text2url')) {
+if (!function_exists('descbeautify')) {
     function descbeautify($text) {
         return nl2br(preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1" target="_blank">$1</a>', htmlspecialchars($text)));
+    }
+    function showMenu($models, $model, $child = false) {
+        ?><ul><?
+        foreach ($models as $g => $m) {
+            if (is_array($m)) { ?>
+                <li><?
+                echo Html::a('<i class="glyphicon glyphicon-chevron-right"></i>' . $g, false);
+                showMenu($m, $model, true); ?>
+                </li><?
+            }
+            elseif ($child || $m->id != $model->id) { ?>
+                <li><?= Html::a('<i class="glyphicon glyphicon-chevron-right"></i>' . $m->name, ['site/index', 'sid' => $m->sid]/*, $m->description ? ['title' => $m->description] : []*/) ?></li>
+            <? }
+        }
+        ?></ul><?
     }
 }
 
 /* @var \app\models\GalleryBehavior $gallery */
 $gallery = $model->getBehavior('galleryBehavior');
 
+$modelMenu = [];
+foreach ($models as $m) {
+    $m1 = &$modelMenu;
+    if (isset($m->group_name)) {
+        foreach (explode($m::GROUP_DELIMITER, $m->group_name) as $g) {
+            if (!isset($m1[$g = trim($g)])) {
+                $m1[$g] = [];
+            }
+            $m1 = &$m1[$g];
+        }
+    }
+    $m1[$m->id] = $m;
+}
+
 ?>
 <div class="site-gallery">
     <div class="title<?= ($many = count($models) > 1) ? '' : ' no-events' ?>">
         <? if ($many): ?>
             <h1><?= Html::a('<i class="glyphicon glyphicon-menu-hamburger"></i>'.$model->name, null/*, $model->description ? ['title' => $model->description] : []*/) ?></h1>
-            <ul>
-                <? foreach ($models as $m): if ($m->id != $model->id): ?>
-                    <li><?= Html::a('<i class="glyphicon glyphicon-chevron-right"></i>'.$m->name, ['site/index', 'sid' => $m->sid]/*, $m->description ? ['title' => $m->description] : []*/) ?></li>
-                <? endif; endforeach; ?>
-            </ul>
+            <? showMenu($modelMenu, $model); ?>
         <? else: ?>
             <h1 ><?= $model->name ?></h1>
         <? endif; ?>

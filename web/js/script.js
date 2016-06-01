@@ -25,9 +25,12 @@ $(function () {
                 visibled = ul.is(':visible'),
                 animated = false,
                 hideEventOn = function () {
-                    $(document).on('click.gallery', function () {
-                        if ($(this).closest(title).length === 0) {
+                    $(document).on('click.gallery', function (e) {
+                        if ($(e.target).closest(title).length === 0) {
                             self.triggerHandler('click');
+                        }
+                        else {
+                            e.stopPropagation();
                         }
                     }).on('keyup.gallery', function (e) {
                         if (e.keyCode == 27) {
@@ -69,6 +72,29 @@ $(function () {
                     self.triggerHandler('click');
                 }, 300);
             }
+        });
+        title.find('ul a:not([href])').each(function () {
+            var self = $(this);
+            self.on('click', function (e) {
+                e.preventDefault();
+                var on = self.next().is(':visible');
+                if (on) {
+                    self.next().slideUp(150);
+                }
+                else {
+                    self.next().slideDown(150);
+                }
+                self.find('i').animate({
+                    deg: on ? 0 : 90
+                }, {
+                    step: function(now,fx) {
+                        $(this).css('-webkit-transform','rotate('+now+'deg)');
+                        $(this).css('-moz-transform','rotate('+now+'deg)');
+                        $(this).css('transform','rotate('+now+'deg)');
+                    },
+                    duration: 150
+                },'linear');
+            });
         });
         desc.each(function () {
             var self = $(this),
