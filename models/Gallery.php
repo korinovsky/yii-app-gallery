@@ -94,6 +94,8 @@ class Gallery extends \yii\db\ActiveRecord
             [['active', 'sort'], 'integer'],
             [['description', 'group_name'], 'string'],
             [['sid', 'name'], 'string', 'max' => 255],
+            [['description', 'group_name'], 'trim'],
+            [['description', 'group_name'], 'default']
         ];
     }
 
@@ -125,7 +127,7 @@ class Gallery extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if ($this->getDirtyAttributes(['name', 'group_name'])) {
-            $this->sid = Inflector::slug(str_replace(static::GROUP_DELIMITER, '-', $this->group_name).'-'.$this->name);
+            $this->sid = Inflector::slug(($this->group_name ? str_replace(static::GROUP_DELIMITER, '-', $this->group_name).'-' : '').$this->name);
         }
         return parent::beforeSave($insert);
     }
