@@ -47,11 +47,18 @@ $modelMenu = [];
 foreach ($models as $m) {
     $m1 = &$modelMenu;
     if (isset($m->group_name)) {
-        foreach (explode($m::GROUP_DELIMITER, $m->group_name) as $g) {
-            if (!isset($m1[$g = trim($g)])) {
-                $m1[$g] = [];
+        $c = count($arr = explode($m::GROUP_DELIMITER, $m->group_name));
+        $i = 0;
+        foreach ($arr as $g) {
+            if (++$i === $c) {
+                $m->name = $g;
             }
-            $m1 = &$m1[$g];
+            else {
+                if (!isset($m1[$g = trim($g)])) {
+                    $m1[$g] = [];
+                }
+                $m1 = &$m1[$g];
+            }
         }
     }
     $m1[$m->id] = $m;
